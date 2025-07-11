@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router'; // For navigation
 import { StatusBar } from 'expo-status-bar'; // For status bar styling
 import React from 'react';
 import { Image, Platform, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-// Removed: import { LinearGradient } from 'expo-linear-gradient';
 
 export default function LandingScreen() {
   const router = useRouter();
@@ -31,24 +30,23 @@ export default function LandingScreen() {
 
   return (
     // Main container: Takes full screen, deep black background.
-    // Uses flex-1 to occupy all available space.
     <View className="flex-1 bg-black">
       {/* Status Bar: Light style for visibility on dark background */}
       <StatusBar style="light" />
 
-      {/* Optional: Subtle gradient overlay for visual depth, if desired */}
-      {/* Keeping this as it adds a touch of elegance to the black background */}
+      {/* Subtle gradient overlay for visual depth and elegance */}
       <View className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70" />
 
-      {/* Main content wrapper: Positioned absolutely to overlay the background elements.
-          Uses flex-col and justify-between to distribute content vertically (image/text at top, buttons in middle, footer at bottom). */}
+      {/* Main content wrapper: Positioned absolutely to overlay the background.
+          Uses flex-col and 'justify-around' for even distribution of content sections.
+          'items-center' centers content horizontally. */}
       <View
-        className="absolute inset-0 flex-col items-center justify-between w-full px-6"
+        className="absolute inset-0 flex-col items-center justify-around w-full px-6" // Changed justify-between to justify-around
         style={{ paddingTop: topInsetPadding, paddingBottom: bottomInsetPadding }}
       >
         {/* Top Content Area: Contains the image, title, and tagline.
-            flex-1 here ensures this section takes up available space, pushing buttons/footer down. */}
-        <View className="flex-1 justify-center items-center w-full" style={{ maxWidth: contentContainerMaxWidth }}>
+            This view now acts as a content block, centered by its parent's 'items-center'. */}
+        <View className="w-full items-center" style={{ maxWidth: contentContainerMaxWidth }}>
           {/* Main illustration image */}
           <Image
             source={require('../../../assets/images/landing/International trade-amico.png')} // Corrected path relative to my-app/app/screens/landing/
@@ -56,7 +54,6 @@ export default function LandingScreen() {
               width: imageSize,
               height: imageSize,
               marginBottom: getResponsiveSpacing(32), // Responsive margin below image
-              alignSelf: 'center', // Ensures image is centered within its parent
               shadowColor: "#FFD700", // Gold shadow for a luxurious glow
               shadowOffset: { width: 0, height: getResponsiveSpacing(8) },
               shadowOpacity: 0.35, // Increased opacity for more visible shadow
@@ -78,7 +75,7 @@ export default function LandingScreen() {
             }}
           >
             <Text className="text-yellow-400">Welcome to </Text>
-            <Text className="text-white">Trader Hive</Text>
+            <Text className="text-white">Tea & Hive</Text>
             <Text className="text-yellow-400">!</Text>
           </Text>
 
@@ -99,17 +96,16 @@ export default function LandingScreen() {
         <View className="w-full items-center">
           {/* Get Started Button (Primary Action): Solid yellow background, pronounced shadow. */}
           <TouchableOpacity
-            className="w-full bg-yellow-500 rounded-xl py-3 mb-4 shadow-lg" // Solid yellow background
-            onPress={() => router.push("/register")} // Navigate to register route
-            activeOpacity={0.85} // Good UX for touch feedback
+            className="w-full bg-yellow-500 rounded-xl py-3 mb-4 shadow-lg"
+            onPress={() => router.push("/register")}
+            activeOpacity={0.85}
             style={{
-              maxWidth: getResponsiveSpacing(340), // Responsive max width for the button
-              alignSelf: "center", // Center button horizontally
-              shadowColor: "#F59E0B", // Darker yellow for shadow to ensure visibility
-              shadowOffset: { width: 0, height: getResponsiveSpacing(8) }, // Larger offset for more depth
-              shadowOpacity: 0.5, // Increased opacity for stronger shadow
-              shadowRadius: getResponsiveSpacing(12), // Larger radius for a softer, more diffused shadow
-              ...(Platform.OS === "android" && { elevation: getResponsiveSpacing(10) }), // Android elevation
+              maxWidth: getResponsiveSpacing(340),
+              shadowColor: "#F59E0B",
+              shadowOffset: { width: 0, height: getResponsiveSpacing(8) },
+              shadowOpacity: 0.5,
+              shadowRadius: getResponsiveSpacing(12),
+              ...(Platform.OS === "android" && { elevation: getResponsiveSpacing(10) }),
             }}
           >
             <Text className="text-center font-bold text-black tracking-wider" style={{ fontSize: getResponsiveFontSize(18) }}>
@@ -120,11 +116,10 @@ export default function LandingScreen() {
           {/* Already have an account? Button (Secondary Action): Outlined in gold. */}
           <TouchableOpacity
             className="w-full border border-yellow-500 rounded-xl py-3"
-            onPress={() => router.push("/login")} // Navigate to login route
+            onPress={() => router.push("/login")}
             activeOpacity={0.85}
             style={{
-              maxWidth: getResponsiveSpacing(340), // Responsive max width for the button
-              alignSelf: "center", // Center button horizontally
+              maxWidth: getResponsiveSpacing(340),
             }}
           >
             <Text className="text-center font-semibold text-yellow-400 tracking-wide" style={{ fontSize: getResponsiveFontSize(18) }}>
@@ -134,8 +129,9 @@ export default function LandingScreen() {
         </View>
 
         {/* Copyright Footer: Positioned at the very bottom, responsive padding. */}
-        <View className="items-center" style={{ paddingBottom: getResponsiveSpacing(10) }}>
-          <Text className="text-xs text-zinc-500 text-center mt-8">
+        {/* Removed absolute positioning from here as it's now part of the flex-col layout */}
+        <View className="items-center" style={{ paddingBottom: getResponsiveSpacing(10), marginTop: getResponsiveSpacing(20) }}>
+          <Text className="text-xs text-zinc-500 text-center">
             © {new Date().getFullYear()} Trader Hive. All rights reserved.
           </Text>
         </View>
