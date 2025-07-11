@@ -1,7 +1,7 @@
-import Constants from 'expo-constants'; // To get status bar height for safe area
-import { useRouter } from 'expo-router'; // For navigation
-import { StatusBar } from 'expo-status-bar'; // For status bar styling
-import React, { useState } from 'react';
+import Constants from "expo-constants"; // To get status bar height for safe area
+import { useRouter } from "expo-router"; // For navigation
+import { StatusBar } from "expo-status-bar"; // For status bar styling
+import React, { useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,
@@ -11,10 +11,11 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
-} from 'react-native';
+} from "react-native";
 
 // Import the custom AuthTextInput component
-import AuthTextInput from '../../components/common/AuthTextInput'; // Path relative to app/(screens)/register/
+import { FontAwesome } from "@expo/vector-icons";
+import AuthTextInput from "../../components/common/AuthTextInput"; // Path relative to app/(screens)/register/
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -23,9 +24,9 @@ export default function RegisterScreen() {
   // State for form inputs
   // Removed: const [firstName, setFirstName] = useState<string>('');
   // Removed: const [lastName, setLastName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [verifyPassword, setVerifyPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [verifyPassword, setVerifyPassword] = useState<string>("");
   // State for potential form errors (for future validation)
   const [errors, setErrors] = useState<{
     // Removed: firstName?: string;
@@ -39,11 +40,14 @@ export default function RegisterScreen() {
   const baseHeight = 800; // Reference height (e.g., iPhone X / Pixel 2 XL)
   const scale = height / baseHeight;
 
-  const getResponsiveFontSize = (baseSize: number): number => Math.round(baseSize * scale);
-  const getResponsiveSpacing = (baseSize: number): number => Math.round(baseSize * scale);
+  const getResponsiveFontSize = (baseSize: number): number =>
+    Math.round(baseSize * scale);
+  const getResponsiveSpacing = (baseSize: number): number =>
+    Math.round(baseSize * scale);
 
   // Dynamic max width for content container to prevent stretching on very wide screens
-  const contentContainerMaxWidth = width > 500 ? getResponsiveSpacing(420) : '100%';
+  const contentContainerMaxWidth =
+    width > 500 ? getResponsiveSpacing(420) : "100%";
 
   // Handle registration logic (placeholder for now)
   const handleRegister = () => {
@@ -56,23 +60,40 @@ export default function RegisterScreen() {
 
     // Removed: if (!firstName) newErrors.firstName = 'First Name is required.';
     // Removed: if (!lastName) newErrors.lastName = 'Last Name is required.';
-    if (!email) newErrors.email = 'Email is required.';
-    if (!password) newErrors.password = 'Password is required.';
-    if (!verifyPassword) newErrors.verifyPassword = 'Verify Password is required.';
+    if (!email) newErrors.email = "Email is required.";
+    if (!password) newErrors.password = "Password is required.";
+    if (!verifyPassword)
+      newErrors.verifyPassword = "Verify Password is required.";
     if (password && verifyPassword && password !== verifyPassword) {
-      newErrors.verifyPassword = 'Passwords do not match.';
+      newErrors.verifyPassword = "Passwords do not match.";
     }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      console.log('Validation errors:', newErrors); // Log errors
+      console.log("Validation errors:", newErrors); // Log errors
       return;
     }
 
     setErrors({}); // Clear errors if validation passes
-    console.log('Registration attempt:', { email, password, verifyPassword }); // Removed firstName, lastName from log
+    console.log("Registration attempt:", { email, password, verifyPassword }); // Removed firstName, lastName from log
     // No actual registration functionality, just logs
     router.back(); // For testing purposes, go back to Landing or Login
+  };
+
+  // Placeholder functions for social login
+  const handleGoogleLogin = () => {
+    console.log("Continue with Google Pressed");
+    // Implement Google login logic here
+  };
+
+  const handleFacebookLogin = () => {
+    console.log("Continue with Facebook Pressed");
+    // Implement Facebook login logic here
+  };
+
+  const handleLinkedInLogin = () => {
+    console.log("Continue with LinkedIn Pressed");
+    // Implement LinkedIn login logic here
   };
 
   return (
@@ -88,7 +109,10 @@ export default function RegisterScreen() {
       <TouchableOpacity
         onPress={() => router.back()}
         className="absolute top-0 left-0 p-4 z-20"
-        style={{ paddingTop: Constants.statusBarHeight + getResponsiveSpacing(10), paddingLeft: getResponsiveSpacing(10) }}
+        style={{
+          paddingTop: Constants.statusBarHeight + getResponsiveSpacing(10),
+          paddingLeft: getResponsiveSpacing(10),
+        }}
       >
         <Text className="text-yellow-400 text-lg font-semibold">Back</Text>
       </TouchableOpacity>
@@ -96,14 +120,14 @@ export default function RegisterScreen() {
       {/* KeyboardAvoidingView to push content up when keyboard appears */}
       <KeyboardAvoidingView
         className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={0} // Set to 0 for both platforms, let ScrollView padding handle it
       >
         <ScrollView
           className="flex-1"
           contentContainerStyle={{
-            justifyContent: 'center', // Vertically centers content within the scrollable area
-            alignItems: 'center', // Horizontally centers content
+            justifyContent: "center", // Vertically centers content within the scrollable area
+            alignItems: "center", // Horizontally centers content
             paddingHorizontal: getResponsiveSpacing(24), // Consistent horizontal padding
             // Padding for the top (fixed header area) and bottom (safe area/keyboard space)
             paddingTop: Constants.statusBarHeight + getResponsiveSpacing(60), // Combine spacer height with status bar
@@ -113,32 +137,40 @@ export default function RegisterScreen() {
           keyboardShouldPersistTaps="handled"
         >
           {/* Logo Section - Centered and with strategic spacing */}
-          <View className="items-center" style={{ marginBottom: getResponsiveSpacing(25) }}>
+          <View
+            className="items-center"
+            style={{ marginBottom: getResponsiveSpacing(25) }}
+          >
             <Image
-              source={require('../../../assets/images/logo/tea-n-hive-logo.png')} // Corrected logo path
+              source={require("../../../assets/images/logo/tea-n-hive-logo.png")} // Corrected logo path
               className="w-full h-auto" // Use w-full and h-auto for responsive scaling
               style={{
                 aspectRatio: 750 / 1000, // Maintain aspect ratio of your logo
                 maxWidth: getResponsiveSpacing(180), // Slightly larger logo for presence
                 maxHeight: getResponsiveSpacing(180),
-                resizeMode: 'contain',
+                resizeMode: "contain",
                 shadowColor: "#FFD700",
                 shadowOffset: { width: 0, height: getResponsiveSpacing(8) },
                 shadowOpacity: 0.35,
                 shadowRadius: getResponsiveSpacing(12),
-                ...(Platform.OS === "android" && { elevation: getResponsiveSpacing(7) }),
+                ...(Platform.OS === "android" && {
+                  elevation: getResponsiveSpacing(7),
+                }),
               }}
               accessibilityLabel="Tea N Hive Logo"
             />
           </View>
 
           {/* Title and Tagline Section - Clear visual hierarchy */}
-          <View className="items-center mb-10" style={{ maxWidth: contentContainerMaxWidth }}>
+          <View
+            className="items-center mb-10"
+            style={{ maxWidth: contentContainerMaxWidth }}
+          >
             <Text
               className="font-extrabold text-center"
               style={{
                 fontSize: getResponsiveFontSize(32),
-                textShadowColor: 'rgba(255, 215, 0, 0.4)',
+                textShadowColor: "rgba(255, 215, 0, 0.4)",
                 textShadowOffset: { width: 0, height: 2 },
                 textShadowRadius: 5,
               }}
@@ -148,14 +180,20 @@ export default function RegisterScreen() {
             </Text>
             <Text
               className="text-zinc-400 text-center font-medium mt-2"
-              style={{ fontSize: getResponsiveFontSize(14), lineHeight: getResponsiveFontSize(20) }}
+              style={{
+                fontSize: getResponsiveFontSize(14),
+                lineHeight: getResponsiveFontSize(20),
+              }}
             >
               Create your account & start buzzing !
             </Text>
           </View>
 
           {/* Form Inputs Block - Grouped for cohesion */}
-          <View className="w-full space-y-5" style={{ maxWidth: contentContainerMaxWidth }}>
+          <View
+            className="w-full space-y-5"
+            style={{ maxWidth: contentContainerMaxWidth }}
+          >
             {/* Removed First Name Input */}
             {/* Removed Last Name Input */}
 
@@ -182,7 +220,7 @@ export default function RegisterScreen() {
               responsiveScale={scale}
               error={errors.password}
               accessibilityLabel="Password input"
-              icon='lock'
+              icon="lock"
             />
 
             <AuthTextInput
@@ -194,7 +232,7 @@ export default function RegisterScreen() {
               responsiveScale={scale}
               error={errors.verifyPassword}
               accessibilityLabel="Verify Password input"
-              icon='lock'
+              icon="lock"
             />
           </View>
 
@@ -210,13 +248,114 @@ export default function RegisterScreen() {
               shadowOffset: { width: 0, height: getResponsiveSpacing(8) },
               shadowOpacity: 0.5,
               shadowRadius: getResponsiveSpacing(12),
-              ...(Platform.OS === "android" && { elevation: getResponsiveSpacing(10) }),
+              ...(Platform.OS === "android" && {
+                elevation: getResponsiveSpacing(10),
+              }),
             }}
           >
-            <Text className="text-center font-bold text-black tracking-wider" style={{ fontSize: getResponsiveFontSize(18) }}>
+            <Text
+              className="text-center font-bold text-black tracking-wider"
+              style={{ fontSize: getResponsiveFontSize(18) }}
+            >
               REGISTER
             </Text>
           </TouchableOpacity>
+
+          {/* Separator for social login */}
+          <View
+            className="flex-row items-center w-full my-8"
+            style={{ maxWidth: contentContainerMaxWidth }}
+          >
+            <View className="flex-1 h-px bg-zinc-700" />
+            <Text
+              className="text-zinc-500 mx-4"
+              style={{ fontSize: getResponsiveFontSize(14) }}
+            >
+              OR
+            </Text>
+            <View className="flex-1 h-px bg-zinc-700" />
+          </View>
+
+          {/* Social Login Buttons - Horizontally aligned */}
+          <View
+            className="flex-row justify-center w-full space-x-4"
+            style={{ maxWidth: contentContainerMaxWidth }}
+          >
+            {/* Google Button */}
+            <TouchableOpacity
+              className="flex-1 items-center justify-center bg-zinc-800 rounded-xl py-3 border border-zinc-700"
+              onPress={handleGoogleLogin}
+              activeOpacity={0.85}
+              style={{
+                maxWidth: getResponsiveSpacing(100), // Fixed width for smaller, circular buttons
+                height: getResponsiveSpacing(50), // Fixed height
+                borderRadius: getResponsiveSpacing(25), // Make it circular
+                shadowColor: "#DB4437", // Google Red
+                shadowOffset: { width: 0, height: getResponsiveSpacing(4) },
+                shadowOpacity: 0.3,
+                shadowRadius: getResponsiveSpacing(8),
+                ...(Platform.OS === "android" && {
+                  elevation: getResponsiveSpacing(5),
+                }),
+              }}
+            >
+              <FontAwesome
+                name="google"
+                size={getResponsiveFontSize(24)}
+                color="#DB4437"
+              />
+            </TouchableOpacity>
+
+            {/* Facebook Button */}
+            <TouchableOpacity
+              className="flex-1 items-center justify-center bg-zinc-800 rounded-xl py-3 border border-zinc-700"
+              onPress={handleFacebookLogin}
+              activeOpacity={0.85}
+              style={{
+                maxWidth: getResponsiveSpacing(100),
+                height: getResponsiveSpacing(50),
+                borderRadius: getResponsiveSpacing(25),
+                shadowColor: "#4267B2", // Facebook Blue
+                shadowOffset: { width: 0, height: getResponsiveSpacing(4) },
+                shadowOpacity: 0.3,
+                shadowRadius: getResponsiveSpacing(8),
+                ...(Platform.OS === "android" && {
+                  elevation: getResponsiveSpacing(5),
+                }),
+              }}
+            >
+              <FontAwesome
+                name="facebook"
+                size={getResponsiveFontSize(24)}
+                color="#4267B2"
+              />
+            </TouchableOpacity>
+
+            {/* LinkedIn Button */}
+            <TouchableOpacity
+              className="flex-1 items-center justify-center bg-zinc-800 rounded-xl py-3 border border-zinc-700"
+              onPress={handleLinkedInLogin}
+              activeOpacity={0.85}
+              style={{
+                maxWidth: getResponsiveSpacing(100),
+                height: getResponsiveSpacing(50),
+                borderRadius: getResponsiveSpacing(25),
+                shadowColor: "#0077B5", // LinkedIn Blue
+                shadowOffset: { width: 0, height: getResponsiveSpacing(4) },
+                shadowOpacity: 0.3,
+                shadowRadius: getResponsiveSpacing(8),
+                ...(Platform.OS === "android" && {
+                  elevation: getResponsiveSpacing(5),
+                }),
+              }}
+            >
+              <FontAwesome
+                name="linkedin"
+                size={getResponsiveFontSize(24)}
+                color="#0077B5"
+              />
+            </TouchableOpacity>
+          </View>
 
           {/* Login Link - Secondary action, distinct spacing */}
           <TouchableOpacity
@@ -228,8 +367,12 @@ export default function RegisterScreen() {
               alignSelf: "center",
             }}
           >
-            <Text className="text-center font-semibold text-yellow-400 tracking-wide" style={{ fontSize: getResponsiveFontSize(16) }}>
-              Already have an account? <Text className="underline">Login here</Text>
+            <Text
+              className="text-center font-semibold text-yellow-400 tracking-wide"
+              style={{ fontSize: getResponsiveFontSize(16) }}
+            >
+              Already have an account?{" "}
+              <Text className="underline">Login here</Text>
             </Text>
           </TouchableOpacity>
         </ScrollView>

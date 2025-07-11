@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
-import LandingScreen from './(screens)/landing';
+import { StatusBar } from "expo-status-bar";
+import { View } from "react-native";
+import LandingScreen from "./(screens)/landing";
 
 export default function App() {
   return (

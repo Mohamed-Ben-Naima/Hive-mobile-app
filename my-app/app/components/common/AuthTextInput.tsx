@@ -1,7 +1,15 @@
-import { FontAwesome } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Platform, StyleSheet, Text, TextInput, TextInputProps, useWindowDimensions, View, ViewStyle } from 'react-native';
-
+import { FontAwesome } from "@expo/vector-icons";
+import React, { useState } from "react";
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    TextInput,
+    TextInputProps,
+    useWindowDimensions,
+    View,
+    ViewStyle,
+} from "react-native";
 
 interface AuthTextInputProps extends TextInputProps {
   label: string;
@@ -48,7 +56,7 @@ const AuthTextInput: React.FC<AuthTextInputProps> = ({
   // These will be conditionally applied.
   const dynamicFocusStyle = StyleSheet.create({
     focused: {
-      borderColor: '#FBBF24', // yellow-500
+      borderColor: "#FBBF24", // yellow-500
       shadowColor: "#FBBF24", // yellow-500 for shadow
       shadowOffset: { width: 0, height: 0 }, // Inner shadow effect
       shadowOpacity: 0.2,
@@ -56,7 +64,7 @@ const AuthTextInput: React.FC<AuthTextInputProps> = ({
       ...(Platform.OS === "android" && { elevation: 3 }), // Android elevation for focus
     },
     unfocused: {
-      borderColor: '#52525B', // zinc-700
+      borderColor: "#52525B", // zinc-700
     },
   });
 
@@ -66,16 +74,20 @@ const AuthTextInput: React.FC<AuthTextInputProps> = ({
       <Text
         className="text-zinc-300 font-semibold mb-2"
         style={{ fontSize: getResponsiveFontSize(14) }}
-        >
+      >
         {label}
       </Text>
-      <View style={{ position: 'relative', justifyContent: 'center' }}>
+      <View style={{ position: "relative", justifyContent: "center" }}>
         {icon && (
           <FontAwesome
             name={icon}
             size={getResponsiveFontSize(20)} // Responsive icon size
             color="#A1A1AA" // zinc-400 color for the icon
-            style={{ position: 'absolute', left: getResponsiveSpacing(15), zIndex: 1 }}
+            style={{
+              position: "absolute",
+              left: getResponsiveSpacing(15),
+              zIndex: 1,
+            }}
           />
         )}
         <TextInput
@@ -86,7 +98,7 @@ const AuthTextInput: React.FC<AuthTextInputProps> = ({
             textInputBaseStyle,
             isFocused ? dynamicFocusStyle.focused : dynamicFocusStyle.unfocused, // Apply dynamic styles based on focus
             icon ? { paddingLeft: getResponsiveSpacing(45) } : {}, // Add left padding if icon exists
-            style // Apply any external styles passed via the 'style' prop last
+            style, // Apply any external styles passed via the 'style' prop last
           ]}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -95,7 +107,10 @@ const AuthTextInput: React.FC<AuthTextInputProps> = ({
         />
       </View>
       {error && (
-        <Text className="text-red-500 mt-1 text-sm" style={{ fontSize: getResponsiveFontSize(12) }}>
+        <Text
+          className="text-red-500 mt-1 text-sm"
+          style={{ fontSize: getResponsiveFontSize(12) }}
+        >
           {error}
         </Text>
       )}
