@@ -151,6 +151,7 @@ export default function LoginScreen() {
               responsiveScale={scale}
               error={errors.email}
               accessibilityLabel="Email address input"
+              icon="envelope" // <-- NEW: Pass the envelope icon
             />
 
             <AuthTextInput
@@ -162,6 +163,7 @@ export default function LoginScreen() {
               responsiveScale={scale}
               error={errors.password}
               accessibilityLabel="Password input"
+              icon='lock' // <-- NEW: Pass the lock icon
             />
 
             {/* Forgot Password Link - Aligned to the right */}

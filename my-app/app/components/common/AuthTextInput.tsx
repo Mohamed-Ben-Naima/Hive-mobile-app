@@ -1,3 +1,4 @@
+import { FontAwesome } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Platform, StyleSheet, Text, TextInput, TextInputProps, useWindowDimensions, View, ViewStyle } from 'react-native';
 
@@ -7,6 +8,7 @@ interface AuthTextInputProps extends TextInputProps {
   responsiveScale: number;
   error?: string;
   containerStyle?: ViewStyle; // Allows external styling for the outer container View
+  icon?: keyof typeof FontAwesome.glyphMap;
 }
 
 const AuthTextInput: React.FC<AuthTextInputProps> = ({
@@ -15,6 +17,7 @@ const AuthTextInput: React.FC<AuthTextInputProps> = ({
   error,
   style, // This prop is for additional styles passed to the TextInput itself
   containerStyle, // For the outer View
+  icon,
   ...rest // Captures all other standard TextInput props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -63,23 +66,34 @@ const AuthTextInput: React.FC<AuthTextInputProps> = ({
       <Text
         className="text-zinc-300 font-semibold mb-2"
         style={{ fontSize: getResponsiveFontSize(14) }}
-      >
+        >
         {label}
       </Text>
-      <TextInput
-        // ONLY STATIC NativeWind classes here. No dynamic border/shadow classes.
-        className="bg-zinc-800 text-white py-3 px-4"
-        // Apply styles using an array: base styles, then conditional dynamic styles, then any external styles.
-        style={[
-          textInputBaseStyle,
-          isFocused ? dynamicFocusStyle.focused : dynamicFocusStyle.unfocused, // Apply dynamic styles based on focus
-          style // Apply any external styles passed via the 'style' prop last
-        ]}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        placeholderTextColor="#A1A1AA"
-        {...rest} // Pass all other standard TextInput props
-      />
+      <View style={{ position: 'relative', justifyContent: 'center' }}>
+        {icon && (
+          <FontAwesome
+            name={icon}
+            size={getResponsiveFontSize(20)} // Responsive icon size
+            color="#A1A1AA" // zinc-400 color for the icon
+            style={{ position: 'absolute', left: getResponsiveSpacing(15), zIndex: 1 }}
+          />
+        )}
+        <TextInput
+          // ONLY STATIC NativeWind classes here. No dynamic border/shadow classes.
+          className="bg-zinc-800 text-white py-3 px-4"
+          // Apply styles using an array: base styles, then conditional dynamic styles, then any external styles.
+          style={[
+            textInputBaseStyle,
+            isFocused ? dynamicFocusStyle.focused : dynamicFocusStyle.unfocused, // Apply dynamic styles based on focus
+            icon ? { paddingLeft: getResponsiveSpacing(45) } : {}, // Add left padding if icon exists
+            style // Apply any external styles passed via the 'style' prop last
+          ]}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          placeholderTextColor="#A1A1AA"
+          {...rest} // Pass all other standard TextInput props
+        />
+      </View>
       {error && (
         <Text className="text-red-500 mt-1 text-sm" style={{ fontSize: getResponsiveFontSize(12) }}>
           {error}
