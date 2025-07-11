@@ -1,15 +1,12 @@
-
-import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
+import LandingScreen from './(screens)/landing';
 
-import "../global.css";
-import WelcomeScreen from './screens/WelcomeScreen';
-
-export default function index() {
-
+export default function App() {
   return (
-    <View className="flex-1 bg-black" >
-      <WelcomeScreen />
+    <View className="flex-1">
+      <LandingScreen />
+      <StatusBar style="auto" />
     </View>
   );
 }
